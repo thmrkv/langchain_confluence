@@ -46,7 +46,7 @@ $ npm install -g @langchain/langgraph-cli
 `gcmsg "chore(nestjs): add basic nestjs configuration"`  
 `ls -la`
 `gp`  
-`git log`  
+`git log`   
 `git init`  
 `gst`  
 `nest g resource LangChain`  
@@ -56,3 +56,8 @@ $ npm install -g @langchain/langgraph-cli
 `brew install jupyterlab`  
 `brew services start jupyterlab`
 `npm i @langchain/core @langchain/langgraph uuid`  
+`npm i @langchain/openai`
+`npm i @nestjs/config`  
+`npm run start:dev`  
+`nest g service OpenAI
+`

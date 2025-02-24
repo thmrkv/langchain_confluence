@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/common';
 import { LangChainService } from './lang-chain.service';
 import { CreateLangChainDto } from './dto/create-lang-chain.dto';
 import { UpdateLangChainDto } from './dto/update-lang-chain.dto';
@@ -12,9 +12,10 @@ export class LangChainController {
     return this.langChainService.create(createLangChainDto);
   }
 
-  @Get()
-  findAll() {
-    return this.langChainService.findAll();
+  @Get('open-ai')
+  async openAI(@Query('content') content: string) {
+    const response = await this.langChainService.openAI(content);
+    console.log(response);
   }
 
   @Get(':id')
