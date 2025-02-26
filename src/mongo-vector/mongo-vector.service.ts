@@ -20,7 +20,7 @@ export class MongoVectorService implements OnModuleInit, OnModuleDestroy {
       model: 'text-embedding-3-large',
     });
   }
-  async onModuleInit() {
+  onModuleInit = async () => {
     this.client = new MongoClient(process.env.MONGODB_ATLAS_URI);
     await this.client.connect();
     this.collection = this.client
@@ -33,18 +33,16 @@ export class MongoVectorService implements OnModuleInit, OnModuleDestroy {
       textKey: 'pageContent',
       embeddingKey: 'embedding',
     });
-  }
+  };
   addDocuments = async (documents: Document[]) => {
-    // const addedDocs = await this.vectorStore.addDocuments(documents);
-    // console.log('addedDocs:', addedDocs);
+    await this.vectorStore.addDocuments(documents);
   };
 
   similaritySearch = async (text: string) => {
-    console.log("similaritySearch", text);
     return this.vectorStore.similaritySearch(text);
   };
 
-  async onModuleDestroy() {
+  onModuleDestroy = async () => {
     await this.client.close();
-  }
+  };
 }

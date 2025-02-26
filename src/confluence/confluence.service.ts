@@ -28,7 +28,6 @@ export class ConfluenceService {
       chunkOverlap: 200,
     });
     const allSplits = await splitter.splitDocuments(documents);
-    // @mk duplicates??
     await this.mongoVectorService.addDocuments(allSplits);
 
     return documents;

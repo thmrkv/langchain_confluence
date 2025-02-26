@@ -1,12 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { pull } from 'langchain/hub';
-import {
-  Annotation,
-  START,
-  END,
-  StateGraph,
-  MemorySaver,
-} from '@langchain/langgraph';
+import { Annotation, START, END, StateGraph } from '@langchain/langgraph';
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { MongoVectorService } from '../mongo-vector/mongo-vector.service';
@@ -39,22 +33,17 @@ export class LangGraphService {
       .addEdge('generate', END)
       .compile();
 
-    // this.memory = new MemorySaver();
-
-    // this.app = this.workflow.compile({ checkpointer: this.memory });
-
     this.llm = new ChatOpenAI({
       model: 'gpt-4o-mini',
     });
   }
 
   retrieve = async (state: typeof this.inputState.State) => {
-    // const docs = await this.confluenceService.loadConfluenceDocuments();
-    console.log('state:', state)
+    await this.confluenceService.loadConfluenceDocuments();
     const retrievedDocs = await this.mongoVectorService.similaritySearch(
       state.question,
     );
-    console.log('retrievedDocs', retrievedDocs);
+
     return { context: retrievedDocs };
   };
 
