@@ -7,29 +7,9 @@ import { UpdateLangChainDto } from './dto/update-lang-chain.dto';
 export class LangChainController {
   constructor(private readonly langChainService: LangChainService) {}
 
-  @Post()
-  create(@Body() createLangChainDto: CreateLangChainDto) {
-    return this.langChainService.create(createLangChainDto);
-  }
-
-  @Get('open-ai')
-  async openAI(@Query('content') content: string) {
-    const response = await this.langChainService.openAI(content);
-    console.log(response);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.langChainService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLangChainDto: UpdateLangChainDto) {
-    return this.langChainService.update(+id, updateLangChainDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.langChainService.remove(+id);
+  @Get('confluence-docs')
+  async loadConfluenceDocuments(@Query('question') question: string) {
+    const result = await this.langChainService.loadAnswerConfluence(question);
+    console.log(result);
   }
 }

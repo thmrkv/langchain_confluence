@@ -59,5 +59,20 @@ $ npm install -g @langchain/langgraph-cli
 `npm i @langchain/openai`
 `npm i @nestjs/config`  
 `npm run start:dev`  
-`nest g service OpenAI
-`
+`nest g service OpenAI`
+`npm install @langchain/community @langchain/core html-to-text`  
+`curl "localhost:3000/lang-chain/open-ai?content=WhatIsMyName?"`
+`curl "localhost:3000/lang-chain/open-ai?content=DoYouStillKnowMyName?"`
+`nest g module confluence`  
+`nest g service confluence`  
+`npm run start:dev`  
+`curl "localhost:3000/lang-chain/confluence-docs"`  
+`brew install mongodb-community@8.0`  
+`brew tap mongodb/brew`  
+`brew update`  
+`brew install mongodb-community@5.0`  
+`brew services start mongodb/brew/mongodb-community@5.0`  
+`npm i mongodb`  
+`npm i @langchain/mongodb`  
+`nest g service mongo-vector`  
+`nest g module mongo-vector`  
