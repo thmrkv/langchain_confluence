@@ -7,13 +7,15 @@ import { MongoVectorService } from '../mongo-vector/mongo-vector.service';
 export class ConfluenceService {
   private readonly username = process.env.CONFLUENCE_USERNAME;
   private readonly accessToken = process.env.CONFLUENCE_ACCESS_TOKEN;
+  private readonly baseURL = process.env.CONFLUENCE_BASE_URL;
+  private readonly spaceKey = process.env.CONFLUENCE_SPACE_KEY;
   public readonly confluenceParser: ConfluencePagesLoader;
 
   constructor(private readonly mongoVectorService: MongoVectorService) {
     if (this.username && this.accessToken) {
       this.confluenceParser = new ConfluencePagesLoader({
-        baseUrl: 'https://pinely.atlassian.net/wiki',
-        spaceKey: 'SA',
+        baseUrl: this.baseURL,
+        spaceKey: this.spaceKey,
         username: this.username,
         accessToken: this.accessToken,
       });
