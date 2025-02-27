@@ -1,11 +1,30 @@
+### Getting Started
+
+Fill the `.env` file with the following content:
+
+```
+OPENAI_API_KEY=
+LANGSMITH_TRACING=
+LANGSMITH_ENDPOINT=
+LANGSMITH_API_KEY=
+LANGSMITH_PROJECT=
+CONFLUENCE_USERNAME=
+CONFLUENCE_ACCESS_TOKEN=
+MONGODB_ATLAS_URI=
+MONGODB_ATLAS_DB_NAME=
+MONGODB_ATLAS_COLLECTION_NAME=
+CONFLUENCE_BASE_URL=
+CONFLUENCE_SPACE_KEY=
+```
+
+`npm i`  
+`npm run start:dev`  
+
 ### Documentation AI Augmentation:
 
 1. ChatGPT
 2. DeepSeek
 3. Claude
-
-### Question:
-![img.png](img.png)
 
 ### Implementation steps:
 
