@@ -34,8 +34,30 @@ export class MongoVectorService implements OnModuleInit, OnModuleDestroy {
       embeddingKey: 'embedding',
     });
   };
-  addDocuments = async (documents: Document[]) => {
-    await this.vectorStore.addDocuments(documents);
+  addDocuments = async (documents: any[]) => {
+    // If we have documents to add
+    if (documents.length > 0) {
+      try {
+        // Clear existing documents if any exist
+        await this.clearDocuments();
+        
+        // Add the new documents
+        await this.vectorStore.addDocuments(documents);
+      } catch (error) {
+        console.error('Error adding documents to MongoDB:', error);
+        throw error;
+      }
+    }
+  };
+  
+  clearDocuments = async () => {
+    try {
+      // Delete all documents in the collection
+      await this.collection.deleteMany({});
+    } catch (error) {
+      console.error('Error clearing documents from MongoDB:', error);
+      throw error;
+    }
   };
 
   similaritySearch = async (text: string) => {

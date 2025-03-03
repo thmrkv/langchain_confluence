@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfluencePagesLoader } from '@langchain/community/document_loaders/web/confluence';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { MongoVectorService } from '../mongo-vector/mongo-vector.service';
+import { Document } from '@langchain/core/documents';
 
 @Injectable()
 export class ConfluenceService {
@@ -23,15 +24,40 @@ export class ConfluenceService {
   }
 
   loadConfluenceDocuments = async () => {
+    // Load all documents from Confluence
     const documents = await this.confluenceParser.load();
-
+    
+    // Deduplicate documents based on source URL
+    const dedupedDocuments = this.deduplicateDocuments(documents);
+    
+    // Split documents into chunks for vector storage
     const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 200,
     });
-    const allSplits = await splitter.splitDocuments(documents);
+    
+    const allSplits = await splitter.splitDocuments(dedupedDocuments);
+    
+    // Store the deduplicated and split documents
     await this.mongoVectorService.addDocuments(allSplits);
 
-    return documents;
+    return dedupedDocuments;
   };
+  
+  private deduplicateDocuments(documents: any[]): any[] {
+    // Create a map to track unique documents by their source URL
+    const uniqueDocsByUrl = new Map<string, any>();
+    
+    for (const doc of documents) {
+      const sourceUrl = doc.metadata?.source || '';
+      
+      // If we have a source URL and haven't seen it before, add to our map
+      if (sourceUrl && !uniqueDocsByUrl.has(sourceUrl)) {
+        uniqueDocsByUrl.set(sourceUrl, doc);
+      }
+    }
+    
+    // Convert map values back to array
+    return Array.from(uniqueDocsByUrl.values());
+  }
 }
